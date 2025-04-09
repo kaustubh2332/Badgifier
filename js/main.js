@@ -436,9 +436,24 @@ function GenerateDocument() {
     }, 100);
 }
 
+function getCompetitionName() {
+    return wcif?.name || "Badges";
+}
+
+function sanitizeFilename(name) {
+    return name.replace(/[^a-z0-9]/gi, '_').replace(/_+/g, '_');
+}
+// Modified PrintDocument Function 
+function PrintDocument() {
+    const competitionName = sanitizeFilename(getCompetitionName());
+    const templateName = templates[settings.template]?.name.replace(/[^a-z0-9]/gi, '_') || "Badges";
+    const filename = `${competitionName}_${templateName}.pdf`;
+    globalDoc.save(filename);
+}
+/*
 function PrintDocument() {
     globalDoc.save("Badges.pdf");
-}
+}*/
 
 $(document).ready(function () {
     // Setup template dropdown
