@@ -163,7 +163,7 @@ function GeneratePersonInformation(index) {
                 if (a.sortTime > b.sortTime) {
                     return 1;
                 }
-                return a.eventCode > b.eventCode;
+                return a.eventCode.localeCompare(b.eventCode);
             });
         }
     }
@@ -541,6 +541,12 @@ function DrawSchedule(doc, x, y, w, info, hscale=1.0) {
                 roleTypeCount += assignment.running.length ? 1 : 0; 
                 roleTypeCount += assignment.scrambling.length ? 1 : 0;
                 var shortRoles = roleTypeCount > 1;
+
+                // Sort staffing roles to ensure consistent and predictable rendering order
+                assignment.judging.sort((a, b) => a - b);
+                assignment.running.sort((a, b) => a - b);
+                assignment.scrambling.sort((a, b) => a - b);
+                
                 for (var k=0; k<assignment.judging.length; k++) {
                     if (k == 0) {
                         roleText += shortRoles ? " J:" : " Judge:";
