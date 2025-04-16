@@ -436,9 +436,15 @@ function GenerateDocument() {
     }, 100);
 }
 
+
 function PrintDocument() {
-    globalDoc.save("Badges.pdf");
+    const competitionId = wcif?.id || "Badges";
+    const templateName = templates[settings.template]?.name
+        ? templates[settings.template].name.replace(/[^a-zA-Z0-9]/g, '_')
+        : "Badges";
+    globalDoc.save(`${competitionId}_${templateName}.pdf`);
 }
+
 
 $(document).ready(function () {
     // Setup template dropdown
